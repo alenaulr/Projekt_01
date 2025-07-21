@@ -40,7 +40,7 @@ users = {
     'liz': 'pass123'
 }
 
-####### PRIHLASENI UZIVATELE A UVITANI ################################
+####### PRIHLASENI UZIVATELE A UVITANI #######################################
 
 username = input('Zadej přihlašovací jméno: ')
 password = input('Zadej heslo: ')
@@ -49,4 +49,20 @@ if username in users and password == users[username]:
     print(f'Ahoj {username}, vítej v textovém analyzátoru!')
 else:
     print('Přihlašovací údaje jsou nesprávné. Ukončuji program.')
+    quit()
+
+####### VYBER TEXTU ##########################################################
+
+user_input = input('Zadej číslo textu k analýze (1-3): ')
+
+if user_input.isdigit():
+    index = int(user_input) - 1
+    if 0 <= index < len(TEXTS):
+        selected_text = TEXTS[index]
+        print ("Text vybrán, pokračuj v analýze.")
+    else:
+        print ("Zadané číslo není v rozsahu 1-3. Ukončuji program")
+        quit()
+else: 
+    print ("Vstup není číslo. Ukončuji program.")
     quit()
