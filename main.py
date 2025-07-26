@@ -40,10 +40,14 @@ users = {
     'liz': 'pass123'
 }
 
+separator = ('_' * 79)
+
 ####### PRIHLASENI UZIVATELE A UVITANI #######################################
 
 username = input('Zadej přihlašovací jméno: ')
 password = input('Zadej heslo: ')
+
+print(separator)
 
 if username in users and password == users[username]:
     print(f'Ahoj {username}, vítej v textovém analyzátoru!')
@@ -51,18 +55,72 @@ else:
     print('Přihlašovací údaje jsou nesprávné. Ukončuji program.')
     quit()
 
+print(separator)
+
 ####### VYBER TEXTU ##########################################################
 
 user_input = input('Zadej číslo textu k analýze (1-3): ')
 
+print(separator)
+
 if user_input.isdigit():
     index = int(user_input) - 1
     if 0 <= index < len(TEXTS):
-        selected_text = TEXTS[index]
-        print ("Text vybrán, pokračuj v analýze.")
+        selected_text = TEXTS[index] #ulozi vybrany text pro dalsi analyzu
     else:
-        print ("Zadané číslo není v rozsahu 1-3. Ukončuji program")
+        print ('Zadané číslo není v rozsahu 1-3. Ukončuji program.')
         quit()
 else: 
-    print ("Vstup není číslo. Ukončuji program.")
+    print ('Vstup není číslo. Ukončuji program.')
     quit()
+
+######## ANALYZA TEXTU #######################################################
+
+words = selected_text.split()
+
+capital_words = 0
+uppercase_words = 0
+lowercase_words = 0
+number_count = 0
+number_sum = 0
+
+for word in words:
+    if word.istitle():
+        capital_words +=1
+    if word.isupper():
+        uppercase_words +=1
+    if word.islower():
+        lowercase_words +=1
+    if word.isdigit():
+        number_count += 1
+        number_sum += int(word)
+
+print(f'''
+Počet slov v textu: {len(words)}.
+Počet slov začínajících velkým písmenem: {capital_words}.
+Počet slov psaných velkými písmeny: {uppercase_words}.
+Počet slov psaných malými písmeny: {lowercase_words}.
+Počet čísel v textu: {number_count}.
+Součet všech čísel v textu: {number_sum}.
+''')
+
+print(separator)
+
+####### SLOUPCOVY GRAF #######################################################
+
+word_lengths = {}
+
+for word in words:
+    length = len(word)
+    if length in word_lengths:
+        word_lengths[length] += 1
+    else:
+        word_lengths[length] = 1
+
+print('\nDélka | Výskyt | Počet')
+print(separator)
+
+for length in sorted(word_lengths):
+    count = word_lengths[length]
+    stars = '*' * count
+    print(f'{length:>3} | {stars:<20} | {count:>2}')
